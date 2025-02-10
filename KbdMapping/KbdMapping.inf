@@ -1,0 +1,70 @@
+;
+; KbdMapping.inf
+;
+
+[Version]
+Signature="$WINDOWS NT$"
+Class=USBDevice
+ClassGuid={88BAE032-5A81-49f0-BC3D-A4FF138216D6}
+Provider=%ManufacturerName%
+CatalogFile=KbdMapping.cat
+DriverVer=
+PnpLockDown=1
+
+[DestinationDirs]
+DefaultDestDir = 13
+
+[SourceDisksNames]
+1 = %DiskName%,,,""
+
+[SourceDisksFiles]
+KbdMapping.sys  = 1,,
+
+;*****************************************
+; Install Section
+;*****************************************
+
+[Manufacturer]
+%ManufacturerName%=Standard,NT$ARCH$.10.0...16299 ; %13% support introduced in build 16299
+
+[Standard.NT$ARCH$.10.0...16299]
+%KbdMapping.DeviceDesc%=KbdMapping_Device, USB\VID_vvvv&PID_pppp
+
+[KbdMapping_Device.NT]
+CopyFiles=File_Copy
+
+[File_Copy]
+KbdMapping.sys
+
+[KbdMapping_Device.NT.HW]
+AddReg=KbdMapping_AddReg
+
+[KbdMapping_AddReg]
+; By default, USBDevice class uses iProduct descriptor to name the device
+; Uncomment for this device to use %KbdMapping.DeviceDesc%
+;HKR,,FriendlyName,,%KbdMapping.DeviceDesc%
+
+;-------------- Service installation
+[KbdMapping_Device.NT.Services]
+AddService = KbdMapping,%SPSVCINST_ASSOCSERVICE%, KbdMapping_Service_Inst
+
+; -------------- KbdMapping driver install sections
+[KbdMapping_Service_Inst]
+DisplayName    = %KbdMapping.SVCDESC%
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_DEMAND_START
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %13%\KbdMapping.sys
+
+[KbdMapping_Device.NT.Wdf]
+KmdfService =  KbdMapping, KbdMapping_wdfsect
+
+[KbdMapping_wdfsect]
+KmdfLibraryVersion = $KMDFVERSION$
+
+[Strings]
+SPSVCINST_ASSOCSERVICE= 0x00000002
+ManufacturerName="<Your manufacturer name>" ;TODO: Replace with your manufacturer name
+DiskName = "KbdMapping Installation Disk"
+KbdMapping.DeviceDesc = "KbdMapping Device"
+KbdMapping.SVCDESC = "KbdMapping Service"
