@@ -17,8 +17,17 @@ NTSTATUS KeyboardReadHook(
         ULONG numKeys = irpSp->Parameters.Read.Length / sizeof(KEYBOARD_INPUT_DATA);
 
         for (ULONG i = 0; i < numKeys; i++) {
-            if (keyData[i].MakeCode == 0xA0) {  // Example, maps Left Shift
-                keyData[i].MakeCode = 0x30;  // Changes it to letter B
+            if (keyData[i].MakeCode == 0x7B) {  // Maps "F12" (Enter)
+                keyData[i].MakeCode = 0x0D;  // Changes it to "Enter"
+            }
+            if (keyData[i].MakeCode == 0xDD) {  // Maps "]" (00)
+                keyData[i].MakeCode = 0xBE;  // Changes it to "."
+            }
+			if (keyData[i].MakeCode == 0x1B) {  // Maps "Esc" (up arrow)
+				keyData[i].MakeCode = 0x26;  // Changes it to "Up arrow"
+            }
+            if (keyData[i].MakeCode == 0x91) {  // Maps "Scroll Lock" (down arrow)
+                keyData[i].MakeCode = 0x28;  // Changes it to "Down arrow"
             }
         }
     }
