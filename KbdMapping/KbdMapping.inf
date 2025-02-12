@@ -28,7 +28,7 @@ KbdMapping.sys  = 1,,
 %ManufacturerName%=Standard,NT$ARCH$.10.0...16299 ; %13% support introduced in build 16299
 
 [Standard.NT$ARCH$.10.0...16299]
-%KbdMapping.DeviceDesc%=KbdMapping_Device, USB\VID_vvvv&PID_pppp
+%KbdMapping.DeviceDesc%=KbdMapping_Device, HID\VID_04B3&PID_4673&MI_00
 
 [KbdMapping_Device.NT]
 CopyFiles=File_Copy

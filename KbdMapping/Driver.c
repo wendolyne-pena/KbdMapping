@@ -5,7 +5,7 @@
 
 PDEVICE_OBJECT g_KeyboardDevice = NULL;
 PDRIVER_DISPATCH OriginalReadHandler = NULL;
-UNICODE_STRING TargetDeviceId = RTL_CONSTANT_STRING(L"HID\VID_04B3&PID_4673&REV_0414&MI_00"); // Keyboard ID
+UNICODE_STRING TargetDeviceId = RTL_CONSTANT_STRING(L"HID\\VID_04B3&PID_4673&REV_0414&MI_00"); // Keyboard ID
 
 NTSTATUS KeyboardReadHook(
     PDEVICE_OBJECT DeviceObject,
@@ -50,7 +50,7 @@ NTSTATUS DriverEntry(
     PDEVICE_OBJECT deviceObject;
     UNICODE_STRING DeviceId;
 
-	RtlInitUnicodeString(&DeviceId, L"HID\VID_04B3&PID_4673&REV_0414&MI_00"); // Keyboard ID
+	RtlInitUnicodeString(&DeviceId, L"HID\\VID_04B3&PID_4673&REV_0414&MI_00"); // Keyboard ID
     if (!RtlEqualUnicodeString(&DeviceId, &TargetDeviceId, TRUE)) {
         return STATUS_UNSUCCESSFUL; 
     }
